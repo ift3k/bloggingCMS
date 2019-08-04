@@ -18,6 +18,8 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 </head>
 <body>
     <div id="app">
@@ -72,9 +74,30 @@
             </div>
         </nav>
 
-        <main class="py-4">
-            @yield('content')
-        </main>
+        <div class="container">
+            <div class="row">
+                @if(Auth::check())
+                    <div class="col-lg-4">
+                    <ul class="list-group">
+
+                        
+                         <li class="list-group-item">
+                            <a href="{{ route('home') }}">Home</a>
+                        </li>
+                        <li class="list-group-item">
+                            <a href="{{ route('post.create') }}">Create a new post</a>
+                        </li>
+
+                    </ul>
+                </div>
+                @endif
+                <div class="col-lg-8">
+                    @yield('content')
+                </div>
+            </div>
+        </div>
+
+        
     </div>
 </body>
 </html>

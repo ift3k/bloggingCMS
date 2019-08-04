@@ -2,8 +2,8 @@
 
 @section('content')
 <div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
+    <div class="row text-md-center">
+        <div class="col-md-12">
             <div class="card">
                 <div class="card-header">{{ __('Login To Devbook') }}</div>
 
