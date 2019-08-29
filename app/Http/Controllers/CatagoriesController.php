@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Session;
+
 use App\Catagory;
 
 use Illuminate\Http\Request;
@@ -45,7 +47,9 @@ class CatagoriesController extends Controller
         $catagory->name = $request->name;
         $catagory->save();
 
-        return redirect()->back();
+        Session::flash('success', 'You have successfully created a catagory!');
+
+        return redirect()->route('catagories');
     }
 
     /**
@@ -67,7 +71,8 @@ class CatagoriesController extends Controller
      */
     public function edit($id)
     {
-        //
+        $catagory = Catagory::find($id);
+        return view('admin.catagories.edit')->with('catagory',$catagory);
     }
 
     /**
@@ -79,7 +84,15 @@ class CatagoriesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $catagory = Catagory::find($id);
+
+        $catagory->name = $request->name;
+        $catagory->save();
+
+
+        Session::flash('success', 'You have successfully updated a catagory!');
+
+        return redirect()->route('catagories');
     }
 
     /**
@@ -90,6 +103,12 @@ class CatagoriesController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $catagory = Catagory::find($id);
+        $catagory->delete();
+
+        Session::flash('success', 'You have successfully deleted a catagory!');
+
+        return redirect()->route('catagories');
+
     }
 }

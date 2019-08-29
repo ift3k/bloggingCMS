@@ -20,6 +20,11 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    
+    <link href="{{ asset('css/toastr.min.css') }}" rel="stylesheet">
+
 </head>
 <body>
     <div id="app">
@@ -112,5 +117,18 @@
 
         
     </div>
+
+    
+    <script src="{{ asset('js/toastr.min.js') }}"></script>
+
+    <script>
+
+        @if(Session::has('success'))
+
+            toastr.success("{{ Session::get('success') }}")
+
+        @endif
+
+    </script>
 </body>
 </html>

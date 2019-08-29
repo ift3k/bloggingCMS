@@ -11,12 +11,10 @@
 			</th>
 
 			<th>
-				Editing the catagory
-			</th>
+				Editing the category			</th>
 
 			<th>
-				Deleting the catagory
-			</th>
+				Deleting the category			</th>
 		</thead>
 
 
@@ -28,7 +26,7 @@
 					</td>
 
 					<td>
-						<a href="{{ route('catagory.create',['id' => $catagory->id]) }}" class="btn btn-xs btn-info">Edit</a>
+						<a href="{{ route('catagory.edit',['id' => $catagory->id]) }}" class="btn btn-xs btn-info">Edit</a>
 					</td>
 
 					<td>
@@ -38,7 +36,7 @@
 				@endforeach
 		</tbody>
 	</table>	
-		</div>
+		</div> 
 	</div>
 	
 @stop
