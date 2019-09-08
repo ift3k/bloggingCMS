@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Catagory;
+
 use Illuminate\Http\Request;
 
 class postController extends Controller
@@ -23,7 +25,7 @@ class postController extends Controller
      */
     public function create()
     {
-        return view('admin.posts.create');
+        return view('admin.posts.create')->with('catagories',Catagory::all());
     }
 
     /**
@@ -39,7 +41,8 @@ class postController extends Controller
         $this->validate($request,[
             'title'=>'required|max:255',
             'featured'=>'required|image',
-            'content'=>'required'
+            'content'=>'required',
+            'catagory_id'=>'required'
         ]);
 
         dd($request->all());
