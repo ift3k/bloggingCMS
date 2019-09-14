@@ -102,6 +102,10 @@
                             <a href="{{ route('catagories') }}">Catagories</a>
                         </li>
 
+                        <li class="list-group-item">
+                            <a href="{{ route('posts') }}">All Posts</a>
+                        </li>
+
 
 
                         
@@ -126,6 +130,12 @@
         @if(Session::has('success'))
 
             toastr.success("{{ Session::get('success') }}")
+
+        @endif
+
+        @if(Session::has('info'))
+
+            toastr.info("{{ Session::get('info') }}")
 
         @endif
 

@@ -19,7 +19,7 @@ class postController extends Controller
      */
     public function index()
     {
-        //
+        return view('admin.posts.index')->with('posts',Post::all());
     }
 
     /**
@@ -29,6 +29,15 @@ class postController extends Controller
      */
     public function create()
     {
+        $catagories = Catagory::all();
+
+        if($catagories->count() == 0)
+        {
+                Session::flash('info','You must create a catagory first!');
+                return redirect()->back();
+        }
+
+
         return view('admin.posts.create')->with('catagories',Catagory::all());
     }
 
