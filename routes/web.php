@@ -1,4 +1,4 @@
-<?php
+ <?php
 
 /*
 |--------------------------------------------------------------------------
@@ -72,6 +72,37 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth' ],function()
 		Route::get('/posts',[
 			'uses' => 'postController@index',
 			'as'	=> 'posts'
+		]);
+
+		Route::get('/posts/delete/{id}',[
+			'uses' => 'postController@destroy',
+			'as'	=> 'post.delete'
+		]);
+
+		Route::get('/posts/edit/{id}', [
+			'uses'	=> 'postController@edit',
+			'as'	=> 'post.edit'
+		]);
+
+		Route::post('/posts/update/{id}',[
+			'uses'	=>	'postController@update',
+			'as'	=>	'post.update'
+		]);
+
+
+		Route::get('/posts/trashed',[
+			'uses' => 'postController@trashed',
+			'as' => 'post.trashed'
+		]);
+
+		Route::get('/posts/kill/{id}', [
+			'uses'	=>	'postController@kill',
+			'as'	=>	'post.kill'
+		]);
+
+		Route::get('/posts/restore/{id}', [
+			'uses'	=> 'postController@restore',
+			'as'	=> 'post.restore'
 		]);
 
 });
