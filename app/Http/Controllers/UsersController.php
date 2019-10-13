@@ -2,14 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use App\Tag;
+use App\User;
 
 use Session;
 
+use App\Profile;
+
 use Illuminate\Http\Request;
 
-class TagController extends Controller
-{
+class UsersController extends Controller
+{   
+
+
+    public function __construct()
+    {
+        $this->middleware('admin');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -17,7 +25,8 @@ class TagController extends Controller
      */
     public function index()
     {
-        return view('admin.tags.index')->with('tags', Tag::all());
+        //
+        return view('admin.users.index')->with('users', User::all());
     }
 
     /**
@@ -28,8 +37,7 @@ class TagController extends Controller
     public function create()
     {
         //
-        return view('admin.tags.create');
-
+        return view('admin.users.create');
     }
 
     /**
@@ -41,18 +49,25 @@ class TagController extends Controller
     public function store(Request $request)
     {
         //
-        
-        $this->validate($request, [
-            'tag' => 'required'
+         $this->validate($request, [
+            'name'  => 'required',
+            'email' => 'required|email'
         ]);
 
-        Tag::create([
-            'tag' => $request->tag
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => bcrypt('password')
         ]);
 
-        Session::flash('success','The tag created successfully!');
+        $profile = Profile::create([
+            'user_id' => $user->id,
+            'avatar'  => 'uploads/avatars/avatar.png'
+        ]);
 
-        return redirect()->back();
+        Session::flash('success','User added successfully!');
+
+        return redirect()->route('users');
     }
 
     /**
@@ -75,10 +90,6 @@ class TagController extends Controller
     public function edit($id)
     {
         //
-        $tag = Tag::find($id);
-
-        return view('admin.tags.edit')->with('tag',$tag);
-
     }
 
     /**
@@ -88,21 +99,9 @@ class TagController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
         //
-        $this->validate($request, [
-            'tag' => 'required'
-        ]);
-
-        $tag = Tag::find($id);
-        $tag->tag = $request->tag;
-
-        $tag->save();
-
-        Session::flash('success', 'Tag updated successfully');
-
-        return redirect()->back();
     }
 
     /**
@@ -111,12 +110,33 @@ class TagController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function delete($id)
+    public function destroy($id)
     {
         //
-        Tag::destroy($id);
+    }
 
-        Session::flash('success', 'Tag deleted successfully!');
+    public function admin($id) 
+    {
+        $user = User::find($id);
+
+        $user->admin = 1;
+        $user->save();
+
+        Session::flash('success','Successfully changed user permission!');
+
+        return redirect()->back();
+
+    }
+
+
+    public function not_admin($id) 
+    {
+        $user = User::find($id);
+        $user->admin = 0;
+
+        $user->save();
+
+        Session::flash('success', 'Successfully changes user permission!');
 
         return redirect()->back();
     }

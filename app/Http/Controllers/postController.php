@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
-Use Session;
+use Session;
 
-Use App\Post;
+use App\Tag;
+
+use App\Post;
 
 use App\Catagory;
 
@@ -38,7 +40,9 @@ class postController extends Controller
         }
 
 
-        return view('admin.posts.create')->with('catagories',Catagory::all());
+        return view('admin.posts.create')->with('catagories',$catagories)
+
+                                        ->with('tags', Tag::all());
     }
 
     /**
@@ -49,13 +53,14 @@ class postController extends Controller
      */
     public function store(Request $request)
     {
-        
-
+       
+       
         $this->validate($request,[
             'title'=>'required|max:255',
             'featured'=>'required|image',
             'content'=>'required',
-            'catagory_id'=>'required'
+            'catagory_id'=>'required',
+            'tags'  => 'required'
             
         ]);
 
@@ -72,6 +77,9 @@ class postController extends Controller
             'content'   =>  $request->content,
             'slug'=> str_slug($request->title)
         ]);
+
+
+        $post->tags()->attach($request->tags);
 
 
         Session::flash('success', 'A new post is created!');
@@ -159,6 +167,7 @@ class postController extends Controller
     public function destroy($id)
     {
         $post = Post::find($id);
+        
         $post->delete();
 
         Session::flash('success', 'Post is trashed!');

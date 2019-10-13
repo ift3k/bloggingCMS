@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Tag;
+use Auth;
 
 use Session;
 
 use Illuminate\Http\Request;
 
-class TagController extends Controller
+class ProfilesController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,7 +17,8 @@ class TagController extends Controller
      */
     public function index()
     {
-        return view('admin.tags.index')->with('tags', Tag::all());
+        //
+        return view('admin.users.profile')->with('user', Auth::user());
     }
 
     /**
@@ -28,8 +29,6 @@ class TagController extends Controller
     public function create()
     {
         //
-        return view('admin.tags.create');
-
     }
 
     /**
@@ -41,18 +40,6 @@ class TagController extends Controller
     public function store(Request $request)
     {
         //
-        
-        $this->validate($request, [
-            'tag' => 'required'
-        ]);
-
-        Tag::create([
-            'tag' => $request->tag
-        ]);
-
-        Session::flash('success','The tag created successfully!');
-
-        return redirect()->back();
     }
 
     /**
@@ -75,10 +62,6 @@ class TagController extends Controller
     public function edit($id)
     {
         //
-        $tag = Tag::find($id);
-
-        return view('admin.tags.edit')->with('tag',$tag);
-
     }
 
     /**
@@ -88,19 +71,52 @@ class TagController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        //validating profile update request
+
         $this->validate($request, [
-            'tag' => 'required'
+            'name' => 'required',
+            'email'=> 'required|required',
+            'github'=> 'required|url',
+            'stackoverflow'=>'required|url'
         ]);
 
-        $tag = Tag::find($id);
-        $tag->tag = $request->tag;
+        $user = Auth::user();
 
-        $tag->save();
 
-        Session::flash('success', 'Tag updated successfully');
+        if($request->hasFile('avatar'))
+        {
+            $avatar = $request->avatar;
+
+            $avatar_new_name = time() . $avatar->getClientOriginalName();
+
+            $avatar->move('uploads/avatars', $avatar_new_name);
+
+            $user->profile->avatar = 'uploads/avatar' . $avatar_new_name;
+
+            $user->profile->save();
+        }
+
+
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->profile->github = $request->github;
+        $user->profile->stackoverflow = $request->stackoverflow;
+
+        $user->save();
+        $user->profile->save();
+
+
+        if($request->has('password'))
+        {
+            $user->password = bcrypt($request->password);
+            $user->save();
+
+
+        }
+
+        Session::flash('success','Account profile updated!');
 
         return redirect()->back();
     }
@@ -111,13 +127,8 @@ class TagController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function delete($id)
+    public function destroy($id)
     {
         //
-        Tag::destroy($id);
-
-        Session::flash('success', 'Tag deleted successfully!');
-
-        return redirect()->back();
     }
 }
