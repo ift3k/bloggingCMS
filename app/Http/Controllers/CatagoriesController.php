@@ -104,6 +104,11 @@ class CatagoriesController extends Controller
     public function destroy($id)
     {
         $catagory = Catagory::find($id);
+
+        foreach($catagory->posts as $post ) {
+            $post->forcedelete();
+        }
+
         $catagory->delete();
 
         Session::flash('success', 'You have successfully deleted a catagory!');

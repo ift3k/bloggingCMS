@@ -12,6 +12,8 @@
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
 
+     <script src="https://cdn.ckeditor.com/ckeditor5/12.4.0/classic/ckeditor.js"></script>
+
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
@@ -24,6 +26,8 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     
     <link href="{{ asset('css/toastr.min.css') }}" rel="stylesheet">
+
+
 
 </head>
 <body>
@@ -135,6 +139,12 @@
                             <a href="{{ route('post.trashed') }}">Trash Posts</a>
                         </li>
 
+                         @if(Auth::user()->admin)
+                        <li class="list-group-item">
+                            <a href="{{ route('settings') }}">Settings</a>
+                        </li>
+                         @endif
+
 
 
                         
@@ -169,5 +179,8 @@
         @endif
 
     </script>
+
+    @yield('scripts')
 </body>
 </html>
+

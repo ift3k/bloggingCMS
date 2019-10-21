@@ -33,16 +33,18 @@ class postController extends Controller
     {
         $catagories = Catagory::all();
 
-        if($catagories->count() == 0)
+        $tags = Tag::all();
+
+        if($catagories->count() == 0 || $tags->count() == 0) 
         {
-            Session::flash('info','You must create a catagory first!');
+            Session::flash('info','You must have a catagory before creating a post!');
             return redirect()->back();
         }
 
 
         return view('admin.posts.create')->with('catagories',$catagories)
 
-                                        ->with('tags', Tag::all());
+                                        ->with('tags', $tags);
     }
 
     /**

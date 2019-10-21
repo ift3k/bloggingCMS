@@ -19,7 +19,8 @@
 
 
 		<tbody>
-			@foreach($catagories as $catagory)
+			@if($catagories->count() > 0)
+				@foreach($catagories as $catagory)
 				<tr>
 					<td>
 					{{ $catagory->name }}
@@ -34,6 +35,16 @@
 					</td>
 				</tr>
 				@endforeach
+			@else
+
+				<tr>
+					<th colspan="5" class="text-center">No catagories found!</th>
+				</tr>
+
+			
+
+				@endif
+
 		</tbody>
 	</table>	
 		</div> 
