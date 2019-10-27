@@ -194,5 +194,10 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth' ],function()
 			'as'	=> 'settings.update'
 		]);
 
+		Route::get('/{slug}', [
+			'uses'	=> 'FrontEndController@singlePost',
+			'as'	=> 'post.single'
+		]);
+
 });
 
