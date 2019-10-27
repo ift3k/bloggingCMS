@@ -52,9 +52,11 @@
 
 				</div>
 
+
+
 				<div class="form-group">
 					<label for="content">Content</label>
-					<textarea name="content" id="editor" cols="50" rows="5" class="form-control"></textarea>
+					<textarea name="content" id="mytextarea" cols="5" rows="5" class="form-control"></textarea>
 				</div>
 
 				<div class="form-group">
@@ -76,13 +78,8 @@
 @section('scripts')
 	
   <script>
-                        ClassicEditor
-                                .create( document.querySelector( '#editor' ) )
-                                .then( editor => {
-                                        console.log( editor );
-                                } )
-                                .catch( error => {
-                                        console.error( error );
-                                } );
-                </script>
+          tinymce.init({
+    		selector: '#mytextarea'
+  });           
+   </script>
 @stop

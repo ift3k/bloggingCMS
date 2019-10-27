@@ -49,7 +49,7 @@ class CatagoriesController extends Controller
 
         Session::flash('success', 'You have successfully created a catagory!');
 
-        return redirect()->route('catagories');
+        return redirect()->route('catagory.create');
     }
 
     /**
