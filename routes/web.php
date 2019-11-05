@@ -20,6 +20,22 @@ Route::get('/', [
 	'as'   => 'index'
 ]);
 
+Route::get('/post/{slug}', [
+			'uses'	=> 'FrontEndController@singlePost',
+			'as'	=> 'post.single'
+		]);
+
+
+Route::get('/catagory/{id}', [
+	'uses' => 'FrontEndController@catagory',
+	'as'	=> 'catagory.single'
+]);
+
+Route::get('/tag/{id}', [
+	'uses' => 'FrontEndController@tag',
+	'as'	=> 'tag.single'
+]);
+
 Auth::routes();
 
 
@@ -194,10 +210,6 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth' ],function()
 			'as'	=> 'settings.update'
 		]);
 
-		Route::get('/post/{slug}', [
-			'uses'	=> 'FrontEndController@singlePost',
-			'as'	=> 'post.single'
-		]);
-
+		
 });
 
