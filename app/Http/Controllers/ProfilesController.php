@@ -103,6 +103,7 @@ class ProfilesController extends Controller
         $user->email = $request->email;
         $user->profile->github = $request->github;
         $user->profile->stackoverflow = $request->stackoverflow;
+        $user->profile->about=$request->about;
 
         $user->save();
         $user->profile->save();
